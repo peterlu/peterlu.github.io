@@ -1397,6 +1397,17 @@ a.gallery {
   position: absolute;
   width: 100%; }
 
+.colloids_back {
+  font-weight: bold;
+  color: #009BC5; }
+
+#colloids_post_holder {
+  padding: 3%;
+  background-color: #e8e8e8; }
+
+#colloids_post_holder.empty {
+  padding: 0; }
+
 /* Media Queries
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 /*
