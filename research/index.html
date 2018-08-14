@@ -39,7 +39,7 @@ $(document).ready(function () {
  
       var selector = $(this).attr('data-filter');
 			// fade all out
-			$('.topic-container').fadeOut(200).promise().done( function() {
+			$('.topic-container').hide().promise().done( function() {
 				// Animation complete.
 				$('.topic-container').detach().appendTo(".topic-hider");
 				$('#research-researchtopics .row').remove();
@@ -58,9 +58,9 @@ $(document).ready(function () {
 					}
 				});
 				if(selector == "*"){
-  				$('.topic-container').fadeIn(200);
+  				$('.topic-container').show();
 				} else {
-  				$('.topic-container.'+selector).fadeIn(200);
+  				$('.topic-container.'+selector).show();
 				}
 				// rearange
 				// fade in
@@ -605,7 +605,7 @@ function createSticky(sticky) {
 	
  
 	
-		<div class="column four columns topic-container high_performance_imaging, soft_matter_physics" data-sort-op="5">
+		<div class="column four columns topic-container high_performance_imaging soft_matter_physics" data-sort-op="5">
 		  <div class="topic-thumbnail">
 				<a href="/research/particle_location">
 					<img src="/images/topic_thumbs/PLuTARC_Cluster_480_thumbn.jpg" class="u-full-width">
@@ -642,7 +642,7 @@ function createSticky(sticky) {
 	
  
 	
-		<div class="column four columns topic-container soft_matter_physics, high_performance_imaging" data-sort-op="6">
+		<div class="column four columns topic-container soft_matter_physics high_performance_imaging" data-sort-op="6">
 		  <div class="topic-thumbnail">
 				<a href="/research/ConDDM">
 					<img src="/images/topic_thumbs/ConDDM_S_q.png" class="u-full-width">
