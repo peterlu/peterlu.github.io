@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <title>Earliest Use of Diamond</title>
+  <meta name="description" content="Peter J. Lu, post-doctoral research fellow in the Department of Physics and the School of Engineering and Applied Sciences at Harvard University.">
+  <meta name="author" content="">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="/assets/style.css">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+<link rel="manifest" href="/assets/icons/site.webmanifest">
+<link rel="mask-icon" href="/assets/icons/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/assets/icons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/icons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<script src="/assets/js/jquery.colorbox-min.js" type="text/javascript"></script>
+<script src="/assets/js/slick.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+var colloids_json;
+var topics;
+$(document).ready(function () {
+  // Sticky Header
+	createSticky($("#navheader"));
+
+  
+  $('.sort a').click(function(){
+    $('.sort .current').removeClass('current');
+      $(this).addClass('current');
+ 
+      var selector = $(this).attr('data-filter');
+			// fade all out
+			$('.topic-container').hide().promise().done( function() {
+				// Animation complete.
+				$('.topic-container').detach().appendTo(".topic-hider");
+				$('#research-researchtopics .row').remove();
+				var i = 0;
+				$('#research-researchtopics').append($('<div/>', {class: 'row'}));
+				$('.topic-container').sort(function(a, b) {
+  				return $(a).data('sort-op') < $(b).data('sort-op') ? -1 : 1;
+				}).each(function( index ) {
+					if(selector == "*" || $(this).hasClass(selector)){
+						$('#research-researchtopics .row').last().append(this);
+						i++;
+						if(i > 2){      
+							$('#research-researchtopics').append($('<div/>', {class: 'row'}));
+							i = 0;
+						}
+					}
+				});
+				if(selector == "*"){
+  				$('.topic-container').show();
+				} else {
+  				$('.topic-container.'+selector).show();
+				}
+				// rearange
+				// fade in
+			});
+
+      return false;
+    }); 
+
+  // Image Gallery
+  $('.gallery').colorbox({maxWidth:'100%', maxHeight:'100%', current: "Image {current} of {total}",
+    rel:function() {        
+        return $(this).data('rel');
+    }
+	});
+	
+	// VIdeo Gallery
+  if($(window).width() > 700 && $(window).height() > 400){
+		$('.videogallery').colorbox({iframe: true, innerWidth: 640, innerHeight: 390, current: "Video {current} of {total}",
+			rel:function() {        
+					return $(this).data('rel');
+			}
+		});
+	} else {
+	  $( "a.videogallery" ).each(function( index ) {
+      $( this ).attr('href', $( this ).attr('data-althref'));
+    });
+	}
+	
+	
+	// Slick Carousel of featured items on the front page
+	$('.carousel').slick({
+		dots: true,
+		infinite: false,
+		speed: 300,
+		slidesToShow: 4,
+		slidesToScroll: 4,
+		responsive: [
+			{
+				breakpoint: 1024,
+				settings: {
+					slidesToShow: 3,
+					slidesToScroll: 3,
+					infinite: true,
+					dots: true
+				}
+			},
+			{
+				breakpoint: 600,
+				settings: {
+					slidesToShow: 2,
+					slidesToScroll: 2
+				}
+			},
+			{
+				breakpoint: 480,
+				settings: {
+					slidesToShow: 1,
+					slidesToScroll: 1
+				}
+			}
+			// You can unslick at a given breakpoint now by adding:
+			// settings: "unslick"
+			// instead of a settings object
+		]
+	});
+window.addEventListener("message", receiveMessage, false);
+
+});
+
+ 
+function receiveMessage(event){
+  var base_path = "https://mattgilbertnet.github.io/colloidsorg/";
+  var html = event.data[0].content_html;
+  var date = event.data[0].date_published;
+  var title = event.data[0].title;
+  html = html.replace(/src="\//g, 'src="'+base_path)
+  html = html.replace(/href="\//g, 'href="'+base_path);
+  var post_html = '<span class="colloids_back">&lt; Back</span><br/>'+
+                  '<span class="date">'+date+'</span><br/>'+
+                  '<h2 class="title">'+title+'</p>'+
+                  html+
+                  '<br/><span class="colloids_back">&lt; Back</span>';
+  $('#colloidsembed').hide();
+  $('#colloids_post_holder').html(post_html);
+  $('#colloids_post_holder').removeClass("empty");
+  $('.colloids_back').click(function(event){
+    $('#colloids_post_holder').html("");    
+    $('#colloids_post_holder').addClass("empty");
+    $('#colloidsembed').show();
+  });
+}
+
+
+function createSticky(sticky) {
+	
+	if (typeof sticky !== "undefined") {
+
+		var	pos = sticky.offset().top,
+				win = $(window);
+			
+		win.on("scroll", function() {
+    		win.scrollTop() >= pos ? sticky.addClass("fixed") : sticky.removeClass("fixed");      
+		});			
+	}
+}
+</script>
+
+
+  
+</head>
+<body><header class="container page-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/"><img id="logo_header" src="/assets/images/logo_header.png" alt="Peter J. Lu"/></a>
+  </div>
+</header>
+
+<div id="navheader">
+	<div class="site-nav-row row">
+		<div class="site-nav-container column">
+      <nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+        
+						<div class="nav-home"><a href="/" alt="Home"><img id="nav_home_logo" src="/assets/images/logo_header_small.png" alt="Peter J. Lu"></a></div>
+					<ul>
+						<li id="nav-home-slick"><a href="/" alt="Home">Home</a></li>
+					
+						<li><a href="/research/" alt="Research">Research</a></li>
+					
+						<li><a href="/publications/" alt="Publications">Publications</a></li>
+					
+						<li><a href="/mediacoverage/" alt="Media Coverage">Media Coverage</a></li>
+					
+						<li><a href="/photo/" alt="Photo">Photo</a></li>
+					
+						<li><a href="/video/" alt="Video">Video</a></li>
+					
+						<li><a href="/about.html" alt="About">About</a></li>
+					
+						<li>
+							<select id="lang_select" onchange="if (this.value) window.location.href=this.value">
+							 
+								<option value=" /research/china_axe " selected>English</option>
+							 
+								<option value=" /it/research/china_axe " >Italian</option>
+							
+							</select>
+						</li>
+					</ul>
+        </div>
+      </nav>
+		</div>
+	</div>
+</div><div class="container">
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="researchtopic">
+
+  <header class="researchtopic-header">
+    <h1 class="researchtopic-title title">Earliest Use of Diamond</h1>
+  </header>
+  
+  
+    <figure>
+<div class="youtube_single videowrapper">
+<iframe allow="encrypted-media" allowfullscreen="" frameborder="0" width="725" height="408" src="https://www.youtube.com/embed/kvqWY9byiKA" frameborder="0" allowfullscreen></iframe>  
+</div>
+</figure>
+  
+
+  
+
+	<div class="row">
+  
+  <div class="researchtopic-content content five columns">
+  
+  
+    <p>It has been long thought that man first used diamond in India, around the time of Christ, based on the record of documents from India in the latter half of the first millennium, BC; there appears to be no evidence of diamond usage from either earlier historical periods, or prehistoric times. However, we have uncovered evidence that the neolithic Chinese were using diamonds to polish a special group of ceremonial stone burial axes as early as 2500 BC, placing the earliest known use of diamond two thousand years before the mineral is known to have been used elsewhere. This particular group of stone axes are made predominantly of the mineral corundum, more commonly known in its gem forms of ruby and sapphire. Unpolished, rougher versions of similar axes made from the same stone appear as early as 4000 BC, pushing back the first known use of the mineral corundum to that time, millennia earlier than what had been thought previously. Both of these minerals are substantially harder than the mineral nephrite, the principal component of ancient Chinese jades. Our work may therefore shed light on how large numbers of highly-polished jade burial artifacts were made, an enduring mystery of the material culture of the Chinese neolithic.</p>
+
+  </div>
+
+  
+  <div class="researchtopic-imagesandaudio seven columns">
+  
+  
+  
+  <div class="researchtopic-imagegallery imagegallery ">
+    <h3>Images</h3>
+  <ul class="images-container">
+   
+    
+    
+    <li><a class="gallery" data-rel="topic" href="/images/large/fanshan_M20_37_reflection.jpg" title="Diamond-polished corundum axe excavated from the Liangzhu culture Fanshan site (c. 2500 BC), with a mirror-like surface polish.">
+      <img src="/images/thumbs/fanshan_M20_37_reflection.jpg" /></a></li>
+   
+    
+    
+    <li><a class="gallery" data-rel="topic" href="/images/large/DiamondPolishedAxe1.jpg" title="Diamond-polished corundum axe from the Liangzhu culture, c. 2500 BC">
+      <img src="/images/thumbs/DiamondPolishedAxe1.jpg" /></a></li>
+   
+    
+    
+    <li><a class="gallery" data-rel="topic" href="/images/large/CorundumAxe1.jpg" title="Corundum axe from the Liangzhu culture, c. 4000 BC">
+      <img src="/images/thumbs/CorundumAxe1.jpg" /></a></li>
+  
+  </ul>
+  </div>
+  
+  
+  
+  </div>
+  
+  </div>
+    
+
+  
+  <div class="row">
+  <div class="researchtopic-publications publications">
+    <h3>Publications</h3>
+
+    <div hidden>
+      <ol class="bibliography"></ol>
+       
+      
+      <a href="#Archaeometry_05">(<i>1</i>)</a>
+		  
+	  </div>
+
+    <ol class="bibliography"><li><span id="Archaeometry_05">Peter J. Lu <i>et al.</i>, <a href="http://www3.interscience.wiley.com/journal/118641758/abstract">“Earliest Use of Corundum and Diamond in Prehistoric China”</a> <i>Archaeometry</i>. <b>47</b>, 1–12 (2005).</span> 
+
+  
+  
+  [<a href="/pdf/publications/2005/Archaeometry_47_1_2005.pdf" download>pdf</a>] 
+  
+
+
+</li></ol>
+
+  </div>
+  </div>
+  
+  
+  
+  <div class="row researchtopic-mediacoverage mediacoverage">
+  
+  
+    
+      <div class="researchtopic-printmediacoverage printmediacoverage six columns">
+    
+    <h3>Print Media Coverage</h3>
+    <div hidden>
+      <ol class="bibliography"></ol>
+      
+      
+      <a href="#ChinaAxe_ChinaDaily_05">(<i>1</i>)</a>
+		  
+      
+      <a href="#ChinaAxe_CSM_05">(<i>2</i>)</a>
+		  
+      
+      <a href="#ChinaAxe_HarvardGazette_05">(<i>3</i>)</a>
+		  
+      
+      <a href="#ChinaAxe_LaRecherche_05">(<i>4</i>)</a>
+		  
+      
+      <a href="#ChinaAxe_LePoint_05">(<i>5</i>)</a>
+		  
+      
+      <a href="#ChinaAxe_NZZ_05">(<i>6</i>)</a>
+		  
+      
+      <a href="#ChinaAxe_PourLaScience_05">(<i>7</i>)</a>
+		  
+      
+      <a href="#ChinaAxe_SciNews_05">(<i>8</i>)</a>
+		  
+      
+      <a href="#ChinaAxe_SdW_05">(<i>9</i>)</a>
+		  
+      
+      <a href="#ChinaAxe_SMH_10">(<i>10</i>)</a>
+		  
+      
+      <a href="#ChinaAxe_TribuneIndia_05">(<i>11</i>)</a>
+		  
+	  </div>
+    <ol class="bibliography"><li><span id="ChinaAxe_ChinaDaily_05"><a href="http://www.chinadaily.com.cn/english/doc/2005-02/18/content_417247.htm">“Earliest use of diamonds by Chinese found”</a> <i>China Daily</i> (2005).</span> 
+
+
+</li>
+<li><span id="ChinaAxe_CSM_05"><a href="http://www.csmonitor.com/2005/0303/p16s01-stss.html">“The high tech of prehistory”</a> <i>The Christian Science Monitor</i> (2005).</span> 
+
+
+</li>
+<li><span id="ChinaAxe_HarvardGazette_05"><a href="https://news.harvard.edu/gazette/story/2005/02/in-china-gems-used-as-tools-millennia-earlier-than-thought-2/">“In China, gems used as tools millennia earlier than thought”</a> <i>Harvard Gazette</i> (2005).</span> 
+
+
+</li>
+<li><span id="ChinaAxe_LaRecherche_05"><a href="http://www.larecherche.fr/premiers-outils-durs">“Premiers outils durs”</a> <i>La Recherche [France]</i> (2005).</span> 
+
+
+</li>
+<li><span id="ChinaAxe_LePoint_05"><a href="http://www.lepoint.fr/actualites-sciences-sante/2007-01-17/quid-novi/1055/0/19374">“Premiers diamantaires”</a> <i>Le Point [France]</i> (2005).</span> 
+
+
+</li>
+<li><span id="ChinaAxe_NZZ_05"><a href="https://www.nzz.ch/articleCTAB3-1.143004">“Diamant und Korund in Chinas Jungsteinzeit”</a> <i>Neue Zürcher Zeitung [Switzerland]</i> (2005).</span> 
+
+
+</li>
+<li><span id="ChinaAxe_PourLaScience_05"><a href="https://www.pourlascience.fr/download/article?id_element=2596">“Des haches polies au diamant”</a> <i>Pour la Science [France]</i> (2005).</span> 
+
+
+</li>
+<li><span id="ChinaAxe_SciNews_05"><a href="http://www.sciencenews.org/view/generic/id/5909/title/In_the_Buff_Stone_Age_tools_may_have_derived_luster_from_diamond">“In the Buff: Stone Age tools may have derived luster from diamond”</a> <i>Science News</i> (2005).</span> 
+
+
+</li>
+<li><span id="ChinaAxe_SdW_05"><a href="https://www.spektrum.de/magazin/steinzeitliche-diamantschleifer/838074">“Steinzeitliche Diamantschleifer”</a> <i>Spektrum der Wissenschaft [Germany]</i> (2005).</span> 
+
+
+</li>
+<li><span id="ChinaAxe_SMH_10"><a href="https://www.smh.com.au/world/rock-stars-20101201-18gpe.html">“Rock stars”</a> <i>Sydney Morning Herald [Australia]</i> (2010).</span> 
+
+
+</li>
+<li><span id="ChinaAxe_TribuneIndia_05"><a href="http://www.tribuneindia.com/2005/20050225/science.htm">“Stone-Age tools”</a> <i>The Tribune [Chandigarh, India]</i> (2005).</span> 
+
+
+</li></ol>
+    </div>
+  
+
+  
+    
+      <div class="researchtopic-broadcastmediacoverage broadcastmediacoverage six columns">
+    
+    <h3>Broadcast Media Coverage</h3>
+    
+      <div class="researchtopic-soundcloud soundcloud ">
+<iframe width="100%" height="350" scrolling="no" frameborder="no"  src="https://w.soundcloud.com/player/?url=https://soundcloud.com/user-327605965/sets/polishing-with-diamond-in"></iframe>
+  </div>
+    
+	  
+      <div hidden>
+      <ol class="bibliography"></ol>
+      
+      
+      <a href="#ChinaAxe_NPR_ATC_05">(<i>1</i>)</a>
+		  
+	  </div>
+      <ol class="bibliography"><li><span id="ChinaAxe_NPR_ATC_05"><a href="https://www.npr.org/templates/story/story.php?storyId=4525808">“Advanced Stone-Polishing Techniques Employed Earlier Than Thought”</a> <i>All Things Considered</i>. <b>National Public Radio</b> (2005).</span> 
+
+
+</li></ol>
+    
+    </div>
+  
+  
+  </div>
+  
+  
+  
+  
+  <div class="researchtopic-links links row">
+    <h3>Additional Links</h3>
+    <ul>
+      
+      <li><a href="http://news.bbc.co.uk/2/hi/science/nature/4555235.stm" target="_blank">BBC News [UK]</a> (May 2005)</li>
+		  
+      <li><a href="http://studentnews.pl/serwis.php?s=58&amp;pok=1399" target="_blank">studentnews.pl [Poland]</a> (Feb 2005)</li>
+		  
+      <li><a href="http://news.bbc.co.uk/hi/spanish/science/newsid_4559000/4559673.stm" target="_blank">BBC Mundo [Spain]</a> (May 2005)</li>
+		  
+      <li><a href="http://www.bbc.co.uk/vietnamese/science/story/2005/05/050518_chinadiamond.shtml" target="_blank">BBC News [Vietnam]</a> (May 2005)</li>
+		  
+      <li><a href="http://www.bbc.co.uk/slovak/science/story/2005/06/050601_diamonds_china.shtml" target="_blank">BBC News [Slovakia]</a> (May 2005)</li>
+		  
+		</ul>
+	  </div>
+
+  </div>
+  
+
+</article>
+
+      </div>
+    </main>
+    
+    </div><footer class="container">
+  <data class="u-url" href="/"></data>
+
+  <div class="column">
+    <p>Peter J. Lu &nbsp;| &nbsp;Harvard University&nbsp; | &nbsp;Cambridge, MA 02138 USA |&nbsp;&nbsp;<a class="u-email" href="mailto:plu@fas.harvard.edu">plu@fas.harvard.edu</a></p>
+    
+      
+
+  </div>
+
+</footer>
+</body>
+
+</html>
